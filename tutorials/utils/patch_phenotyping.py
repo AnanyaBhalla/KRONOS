@@ -35,7 +35,7 @@ from sklearn.metrics import f1_score, balanced_accuracy_score, average_precision
 
 import torch
 from torch.utils.data import Dataset
-from kronos import create_model_from_pretrained
+from kronos import create_model_from_pretrained, get_torch_device
 
 
 class PatchPhenotypingDataset(Dataset):
@@ -600,7 +600,7 @@ class PatchPhenotyping:
         os.makedirs(feature_dir, exist_ok=True)
 
         # Set the device to GPU if available, otherwise use CPU
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        device = get_torch_device()
 
         # Move the model to the selected device and set it to evaluation mode
         model = model.to(device)

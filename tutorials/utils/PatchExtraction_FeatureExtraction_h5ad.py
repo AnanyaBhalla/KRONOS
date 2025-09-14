@@ -49,7 +49,7 @@ from torch.utils.data import Dataset, DataLoader
 # from torchvision.transforms import v2
 import scanpy as sc
 from glob import glob
-from kronos import create_model_from_pretrained
+from kronos import create_model_from_pretrained, get_torch_device
 
 
 def load_model(self):
@@ -121,9 +121,11 @@ class PatchExtraction:
         self.marker_list = self._read_marker_csv(config["marker_csv_path"])
         
         # Set up device (let PyTorch automatically choose)
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        if torch.cuda.is_available():
+        self.device = get_torch_device()
+        if self.device.type == "cuda":
             print(f"Using GPU: {torch.cuda.get_device_name()}")
+        elif self.device.type == "mps":
+            print("Using Apple Silicon GPU (MPS)")
         else:
             print("No GPU available, using CPU instead")
     
@@ -399,9 +401,11 @@ class FeatureExtraction:
         self.num_workers = config.get("num_workers", 4)
         
         # Set up device (let PyTorch automatically choose)
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        if torch.cuda.is_available():
+        self.device = get_torch_device()
+        if self.device.type == "cuda":
             print(f"Using GPU: {torch.cuda.get_device_name()}")
+        elif self.device.type == "mps":
+            print("Using Apple Silicon GPU (MPS)")
         else:
             print("No GPU available, using CPU instead")
         

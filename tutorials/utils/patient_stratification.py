@@ -44,6 +44,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader, Subset
+from kronos import get_torch_device
 import scanpy as sc
 from glob import glob
 
@@ -168,9 +169,9 @@ class MilDataset(Dataset):
             # Normalize the data
             self.data = (data_cpu - mean) / std
 
-        # Move data back to GPU if it was originally on GPU
-        if data.is_cuda:
-            self.data = self.data.cuda()
+        # Move data back to original device if normalization was performed
+        if normalize:
+            self.data = self.data.to(data.device)
         else:
             self.data = data
 
@@ -529,7 +530,7 @@ class PatientStratificationClassifier:
         """
         self.config = config
         self.verbose = config.get("verbose", True)
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = get_torch_device()
         if self.verbose:
             print(f"Using device: {self.device}")
 

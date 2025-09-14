@@ -9,13 +9,13 @@ def add_parent_to_sys_path():
     sys.path.insert(0, str(parent_dir))
 
 add_parent_to_sys_path()
-from kronos import create_model, create_model_from_pretrained
+from kronos import create_model, create_model_from_pretrained, get_torch_device
 
 
 class TestModelLoadingAndInference(unittest.TestCase):
     
     def setUp(self):
-        self.device = 'cuda'
+        self.device = get_torch_device()
         self.batch_size = 2
         self.marker_count = 10
         self.patch_size = 224

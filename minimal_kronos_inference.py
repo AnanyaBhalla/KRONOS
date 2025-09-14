@@ -1,5 +1,5 @@
 import torch
-from kronos import create_model_from_pretrained
+from kronos import create_model_from_pretrained, get_torch_device
 
 if __name__ == "__main__":
 
@@ -15,7 +15,7 @@ if __name__ == "__main__":
     print("Model precision: ", precision)
     print("Model embedding dimension: ", embedding_dim)
 
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    device = get_torch_device()
     model.to(device)
     
     batch_size = 2

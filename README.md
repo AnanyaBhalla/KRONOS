@@ -119,7 +119,9 @@ We provide an example of processing a batch of dummy multiplex images with 10 ma
 
 ```python
 import torch
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+from kronos import get_torch_device
+
+device = get_torch_device()
 model.to(device)
 
 batch_size = 2

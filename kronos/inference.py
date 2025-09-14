@@ -4,6 +4,20 @@ from typing import Optional, Tuple
 
 from . import vision_transformer as vits
 
+def get_torch_device() -> torch.device:
+    """
+    Get the best available device for PyTorch operations.
+
+    Returns:
+        torch.device: The device to use, prioritizing CUDA > MPS > CPU
+    """
+    if torch.cuda.is_available():
+        return torch.device('cuda')
+    elif torch.backends.mps.is_available():
+        return torch.device('mps')
+    else:
+        return torch.device('cpu')
+
 def get_model_config(
     checkpoint_path: Optional[str] = None,
     cfg_path: Optional[str] = None,
