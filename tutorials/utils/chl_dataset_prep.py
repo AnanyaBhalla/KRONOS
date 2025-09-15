@@ -10,6 +10,7 @@ import tifffile as tiff
 import skimage.io as skio
 import shutil
 import requests
+import zipfile
 
 
 def download_chl_maps_shaban_dataset(project_dir):
@@ -45,7 +46,11 @@ def download_chl_maps_shaban_dataset(project_dir):
         else:
             print(f"Failed to download dataset. Status code: {response.status_code}")
             return
-        os.system(f"unzip {dataset_zip_path} -d {os.path.join(project_dir, 'dataset')}")
+        # Extract ZIP file using Python's zipfile module
+        extract_dir = os.path.join(project_dir, 'dataset')
+        with zipfile.ZipFile(dataset_zip_path, 'r') as zip_ref:
+            zip_ref.extractall(extract_dir)
+        print("Dataset extracted successfully.")
 
 
 def make_multi_channel_tiff(project_dir):
