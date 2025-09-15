@@ -31,6 +31,7 @@ matplotlib = { version = "*", optional = true }
 scikit-learn = { version = "*", optional = true }
 scikit-image = { version = "*", optional = true }
 optuna = { version = "*", optional = true }
+requests = { version = "*", optional = true }
 
 [tool.poetry.extras]
 tutorials = [
@@ -43,7 +44,8 @@ tutorials = [
     "matplotlib",
     "scikit-learn",
     "scikit-image",
-    "optuna"
+    "optuna",
+    "requests"
 ]
 
 [build-system]
